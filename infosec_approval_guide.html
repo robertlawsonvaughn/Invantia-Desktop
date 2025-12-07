@@ -1,0 +1,643 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invantia Desktop - InfoSec Approval Guide</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: #f5f5f5;
+    }
+    
+    .header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 2rem 1rem;
+      text-align: center;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    
+    .header p {
+      font-size: 1.1rem;
+      opacity: 0.95;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    
+    .panel {
+      background: white;
+      border-radius: 8px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .panel h2 {
+      color: #667eea;
+      font-size: 1.75rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid #667eea;
+    }
+    
+    .content-block {
+      margin-bottom: 2rem;
+    }
+    
+    .content-block:last-child {
+      margin-bottom: 0;
+    }
+    
+    .content-block h3 {
+      color: #444;
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+    }
+    
+    p {
+      margin-bottom: 1rem;
+      line-height: 1.8;
+    }
+    
+    ul, ol {
+      margin-left: 2rem;
+      margin-bottom: 1rem;
+    }
+    
+    li {
+      margin-bottom: 0.5rem;
+    }
+    
+    strong {
+      color: #667eea;
+      font-weight: 600;
+    }
+    
+    blockquote {
+      border-left: 4px solid #667eea;
+      padding-left: 1.5rem;
+      margin: 1.5rem 0;
+      font-style: italic;
+      color: #555;
+      background: #f9f9f9;
+      padding: 1rem 1rem 1rem 1.5rem;
+      border-radius: 4px;
+    }
+    
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.95rem;
+    }
+    
+    .table thead {
+      background: #667eea;
+      color: white;
+    }
+    
+    .table th {
+      padding: 0.75rem;
+      text-align: left;
+      font-weight: 600;
+    }
+    
+    .table td {
+      padding: 0.75rem;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    
+    .table tbody tr:nth-child(even) {
+      background: #f9f9f9;
+    }
+    
+    .table tbody tr:hover {
+      background: #f0f0f0;
+    }
+    
+    .footer {
+      background: #2d3748;
+      color: #cbd5e0;
+      padding: 2rem 1rem;
+      text-align: center;
+      margin-top: 3rem;
+    }
+    
+    .footer p {
+      margin-bottom: 0.5rem;
+    }
+    
+    .footer a {
+      color: #667eea;
+      text-decoration: none;
+    }
+    
+    .footer a:hover {
+      text-decoration: underline;
+    }
+    
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 1.5rem;
+      }
+      
+      .panel {
+        padding: 1.5rem;
+      }
+      
+      .panel h2 {
+        font-size: 1.5rem;
+      }
+      
+      .table {
+        font-size: 0.85rem;
+      }
+      
+      .table th, .table td {
+        padding: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <div class="header">
+    <h1>Invantia Desktop</h1>
+    <p>InfoSec Approval Guide</p>
+  </div>
+
+  <div class="container">
+
+  <!-- InfoSec Approval Guide -->
+  <section class="panel" id="infosec">
+    <h2>?? Getting InfoSec Approval</h2>
+    
+    <div class="content-block">
+      <h3>For Employees: How to Get Permission</h3>
+      <p>Need to use Invantia Desktop for work but require InfoSec approval? Here's what to tell your security team to make the conversation easy.</p>
+    </div>
+
+    <div class="content-block">
+      <h3>Executive Summary for Security Teams</h3>
+      <p><strong>Invantia Desktop is a zero-trust, client-side document analysis tool that operates entirely within the user's browser. No documents, queries, or results ever leave the user's device. There are no servers to compromise, no APIs to breach, and no data transmissions to intercept.</strong></p>
+      
+      <p>Key Security Properties:</p>
+      <ul>
+        <li><strong>Zero Data Exfiltration:</strong> Documents processed entirely in-browser using IndexedDB. No network requests after initial page load.</li>
+        <li><strong>No Cloud Dependencies:</strong> No external AI APIs (OpenAI, Anthropic, Google) or embedding services required.</li>
+        <li><strong>Verifiable Privacy:</strong> Open browser DevTools ? Network tab ? Upload document ? Zero POST/PUT requests.</li>
+        <li><strong>No Authentication Backend:</strong> User accounts managed via existing enterprise SSO (optional). No credential storage.</li>
+        <li><strong>Audit Trail:</strong> All processing happens client-side with deterministic, inspectable algorithms.</li>
+      </ul>
+    </div>
+
+    <div class="content-block">
+      <h3>Technical Security Assessment</h3>
+      
+      <p><strong>Architecture:</strong></p>
+      <ul>
+        <li><strong>Client-Side Only:</strong> JavaScript application running in user's browser (Chrome, Firefox, Safari, Edge)</li>
+        <li><strong>Local Storage:</strong> IndexedDB API (W3C standard, sandboxed per-origin)</li>
+        <li><strong>No Backend Processing:</strong> Static file server only (HTML, CSS, JS). No server-side code execution.</li>
+        <li><strong>No External APIs:</strong> Zero runtime dependencies on third-party services</li>
+      </ul>
+      
+      <p><strong>Data Flow:</strong></p>
+      <ol>
+        <li>User navigates to invantia.com (one-time page load)</li>
+        <li>Browser downloads static assets (HTML, CSS, JS libraries)</li>
+        <li>User uploads document ? Parsed in browser using PDF.js/Mammoth.js</li>
+        <li>Text extracted and chunked ? Stored in IndexedDB (local browser database)</li>
+        <li>User searches ? JavaScript executes locally ? Results displayed</li>
+        <li><strong>Zero network requests</strong> during steps 3-5</li>
+      </ol>
+      
+      <p><strong>Third-Party Code Audit:</strong></p>
+      <ul>
+        <li><strong>PDF.js:</strong> Mozilla Foundation (same engine in Firefox). MIT License. No telemetry.</li>
+        <li><strong>Mammoth.js:</strong> Open-source DOCX parser. BSD License. No external calls.</li>
+        <li><strong>Verification:</strong> All libraries served from invantia.com (no CDN dependencies). Source code auditable.</li>
+      </ul>
+    </div>
+
+    <div class="content-block">
+      <h3>Common InfoSec Questions & Answers</h3>
+      
+      <p><strong>Q: Where are documents stored?</strong></p>
+      <p>A: Exclusively in the user's browser using IndexedDB, a W3C standard local storage API. Data is sandboxed per-origin and never transmitted. Documents persist locally until user explicitly deletes them or clears browser data.</p>
+      
+      <p><strong>Q: Can documents leak to invantia.com servers?</strong></p>
+      <p>A: No. The server is a static file host only (nginx serving HTML/CSS/JS). There is no server-side code capable of receiving or processing documents. Verify by monitoring network traffic during document upload—zero POST/PUT requests to any server.</p>
+      
+      <p><strong>Q: What about AI/LLM integration?</strong></p>
+      <p>A: Invantia Desktop does NOT send documents to AI services. Instead, it generates formatted "chat packages" that users manually copy-paste into their own AI accounts (ChatGPT, Claude, Gemini). The user controls what gets shared and when.</p>
+      
+      <p><strong>Q: Does it use external embedding APIs (OpenAI, Cohere, etc.)?</strong></p>
+      <p>A: No. Invantia uses classical co-occurrence-based vectorization implemented in pure JavaScript. No neural networks, no API calls, no model downloads. All semantic expansion happens locally using statistics computed from the user's own documents.</p>
+      
+      <p><strong>Q: What data leaves the browser?</strong></p>
+      <p>A: Only what the user explicitly copy-pastes. Invantia Desktop generates text outputs (super chunks) that users can review before manually pasting into external AI tools. The application itself transmits nothing.</p>
+      
+      <p><strong>Q: How do we verify this claim?</strong></p>
+      <p>A: 
+        <ol>
+          <li>Open Chrome DevTools ? Network tab</li>
+          <li>Load invantia.com (observe initial page load)</li>
+          <li>Upload a test document</li>
+          <li>Create a search query</li>
+          <li>Generate results</li>
+          <li><strong>Result:</strong> Zero network requests during steps 3-5</li>
+        </ol>
+      </p>
+      
+      <p><strong>Q: What about browser extensions or malware?</strong></p>
+      <p>A: Invantia Desktop operates within standard browser security sandboxes. Malicious extensions could theoretically access any web app's data, but this is a browser-level concern, not specific to Invantia. Use corporate-managed browsers with vetted extensions.</p>
+      
+      <p><strong>Q: Can we run this on-premises?</strong></p>
+      <p>A: Yes. Invantia Desktop is a static web application that can be served from internal corporate web servers. No backend infrastructure required—just host the HTML/CSS/JS files on any web server (nginx, Apache, IIS).</p>
+      
+      <p><strong>Q: What's the vendor's data retention policy?</strong></p>
+      <p>A: Not applicable. Invantia (the vendor) never receives user documents, queries, or results. There is no vendor data retention because there is no vendor data collection.</p>
+      
+      <p><strong>Q: How do we handle data classification (Confidential, Secret, etc.)?</strong></p>
+      <p>A: Since data never leaves the user's device, Invantia Desktop can process documents of any classification level, subject to your organization's policies on browser-based tools. Treat it like viewing a PDF in the browser—same risk profile.</p>
+      
+      <p><strong>Q: What about compliance (GDPR, HIPAA, SOC 2)?</strong></p>
+      <p>A: Client-side processing means no data crosses compliance boundaries. The vendor (Invantia) is not a data processor under GDPR/HIPAA because they never access customer data. For SOC 2, there are no systems to audit—processing is local.</p>
+    </div>
+
+    <div class="content-block">
+      <h3>Security Testing Recommendations</h3>
+      <p>For security teams performing due diligence, we recommend:</p>
+      
+      <ol>
+        <li><strong>Network Traffic Analysis:</strong> 
+          <ul>
+            <li>Use Wireshark or browser DevTools to monitor all network requests</li>
+            <li>Upload sample documents and verify zero POST/PUT/PATCH requests</li>
+            <li>Confirm no DNS queries to third-party AI services (openai.com, anthropic.com, etc.)</li>
+          </ul>
+        </li>
+        
+        <li><strong>IndexedDB Inspection:</strong>
+          <ul>
+            <li>Chrome DevTools ? Application ? Storage ? IndexedDB ? InvantiaDB</li>
+            <li>Verify documents are stored locally in "documents" object store</li>
+            <li>Confirm vectors are computed locally in "vectors" object store</li>
+          </ul>
+        </li>
+        
+        <li><strong>Source Code Review:</strong>
+          <ul>
+            <li>All JavaScript is unminified and readable in browser DevTools</li>
+            <li>Search codebase for "fetch(", "XMLHttpRequest", "axios", "$.ajax" ? should only find static asset loading</li>
+            <li>Verify no WebSocket connections or Server-Sent Events</li>
+          </ul>
+        </li>
+        
+        <li><strong>Offline Testing:</strong>
+          <ul>
+            <li>Load invantia.com with network enabled</li>
+            <li>Disconnect from network (airplane mode)</li>
+            <li>Upload document, create search, generate results</li>
+            <li><strong>Expected result:</strong> Full functionality with no network</li>
+          </ul>
+        </li>
+      </ol>
+    </div>
+
+    <div class="content-block">
+      <h3>Risk Assessment Summary</h3>
+      
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Risk Category</th>
+            <th>Traditional SaaS</th>
+            <th>Invantia Desktop</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Data Exfiltration</td>
+            <td>High - Documents sent to vendor servers</td>
+            <td><strong>None</strong> - No transmission occurs</td>
+          </tr>
+          <tr>
+            <td>Third-Party Breach</td>
+            <td>High - Vendor database compromise</td>
+            <td><strong>None</strong> - No vendor storage</td>
+          </tr>
+          <tr>
+            <td>Man-in-the-Middle</td>
+            <td>Medium - Sensitive data in transit</td>
+            <td><strong>Low</strong> - Only initial page load (HTTPS)</td>
+          </tr>
+          <tr>
+            <td>API Key Leakage</td>
+            <td>High - AI service credentials</td>
+            <td><strong>None</strong> - No APIs used</td>
+          </tr>
+          <tr>
+            <td>Vendor Lock-In</td>
+            <td>High - Proprietary data formats</td>
+            <td><strong>None</strong> - Standard browser storage</td>
+          </tr>
+          <tr>
+            <td>Compliance Violations</td>
+            <td>Medium - Shared responsibility model</td>
+            <td><strong>None</strong> - Data stays local</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="content-block">
+      <h3>Recommended Approval Language</h3>
+      <p>For security teams comfortable with the assessment, here's suggested approval language:</p>
+      
+      <blockquote>
+        "Invantia Desktop is approved for use with [classification level] documents. The application operates entirely client-side with no data transmission to vendor servers or third-party services. Users must manually control any data shared with external AI services by copy-pasting generated outputs. Standard browser security policies apply."
+      </blockquote>
+    </div>
+
+    <div class="content-block">
+      <h3>Alternative: Self-Hosted Deployment</h3>
+      <p>For organizations requiring maximum control:</p>
+      
+      <p><strong>Option: Host Internally</strong></p>
+      <ul>
+        <li>Download Invantia Desktop static files</li>
+        <li>Deploy to internal web server (e.g., https://invantia.internal.corp.com)</li>
+        <li>Configure enterprise SSO/SAML for access control</li>
+        <li>Air-gapped deployment possible (no internet required after initial setup)</li>
+      </ul>
+      
+      <p>Contact: enterprise@invantia.com for self-hosted deployment packages.</p>
+    </div>
+
+    <div class="content-block">
+      <h3>Still Have Questions?</h3>
+      <p>Security teams can contact us directly:</p>
+      <ul>
+        <li><strong>Email:</strong> security@invantia.com</li>
+        <li><strong>Response Time:</strong> 24 hours for security inquiries</li>
+        <li><strong>Video Demo:</strong> Available upon request to walk through architecture</li>
+        <li><strong>Pen Test Coordination:</strong> We welcome third-party security assessments</li>
+      </ul>
+    </div>
+  </section>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p><strong>Invantia Desktop</strong></p>
+    <p>© 2025 TrxSys LLC. All rights reserved.</p>
+    <p>
+      <a href="https://invantia.com">invantia.com</a> | 
+      <a href="mailto:security@invantia.com">security@invantia.com</a> | 
+      <a href="https://github.com/invantia">GitHub</a>
+    </p>
+    <p style="font-size: 0.9rem; margin-top: 1rem; opacity: 0.8;">
+      Invantia Desktop is a privacy-first document intelligence platform.<br>
+      Your documents never leave your device.
+    </p>
+  </div>
+
+</body>
+</html>
+    <h2>?? Getting InfoSec Approval</h2>
+    
+    <div class="content-block">
+      <h3>For Employees: How to Get Permission</h3>
+      <p>Need to use Invantia Desktop for work but require InfoSec approval? Here's what to tell your security team to make the conversation easy.</p>
+    </div>
+
+    <div class="content-block">
+      <h3>Executive Summary for Security Teams</h3>
+      <p><strong>Invantia Desktop is a zero-trust, client-side document analysis tool that operates entirely within the user's browser. No documents, queries, or results ever leave the user's device. There are no servers to compromise, no APIs to breach, and no data transmissions to intercept.</strong></p>
+      
+      <p>Key Security Properties:</p>
+      <ul>
+        <li><strong>Zero Data Exfiltration:</strong> Documents processed entirely in-browser using IndexedDB. No network requests after initial page load.</li>
+        <li><strong>No Cloud Dependencies:</strong> No external AI APIs (OpenAI, Anthropic, Google) or embedding services required.</li>
+        <li><strong>Verifiable Privacy:</strong> Open browser DevTools ? Network tab ? Upload document ? Zero POST/PUT requests.</li>
+        <li><strong>No Authentication Backend:</strong> User accounts managed via existing enterprise SSO (optional). No credential storage.</li>
+        <li><strong>Audit Trail:</strong> All processing happens client-side with deterministic, inspectable algorithms.</li>
+      </ul>
+    </div>
+
+    <div class="content-block">
+      <h3>Technical Security Assessment</h3>
+      
+      <p><strong>Architecture:</strong></p>
+      <ul>
+        <li><strong>Client-Side Only:</strong> JavaScript application running in user's browser (Chrome, Firefox, Safari, Edge)</li>
+        <li><strong>Local Storage:</strong> IndexedDB API (W3C standard, sandboxed per-origin)</li>
+        <li><strong>No Backend Processing:</strong> Static file server only (HTML, CSS, JS). No server-side code execution.</li>
+        <li><strong>No External APIs:</strong> Zero runtime dependencies on third-party services</li>
+      </ul>
+      
+      <p><strong>Data Flow:</strong></p>
+      <ol>
+        <li>User navigates to invantia.com (one-time page load)</li>
+        <li>Browser downloads static assets (HTML, CSS, JS libraries)</li>
+        <li>User uploads document ? Parsed in browser using PDF.js/Mammoth.js</li>
+        <li>Text extracted and chunked ? Stored in IndexedDB (local browser database)</li>
+        <li>User searches ? JavaScript executes locally ? Results displayed</li>
+        <li><strong>Zero network requests</strong> during steps 3-5</li>
+      </ol>
+      
+      <p><strong>Third-Party Code Audit:</strong></p>
+      <ul>
+        <li><strong>PDF.js:</strong> Mozilla Foundation (same engine in Firefox). MIT License. No telemetry.</li>
+        <li><strong>Mammoth.js:</strong> Open-source DOCX parser. BSD License. No external calls.</li>
+        <li><strong>Verification:</strong> All libraries served from invantia.com (no CDN dependencies). Source code auditable.</li>
+      </ul>
+    </div>
+
+    <div class="content-block">
+      <h3>Common InfoSec Questions & Answers</h3>
+      
+      <p><strong>Q: Where are documents stored?</strong></p>
+      <p>A: Exclusively in the user's browser using IndexedDB, a W3C standard local storage API. Data is sandboxed per-origin and never transmitted. Documents persist locally until user explicitly deletes them or clears browser data.</p>
+      
+      <p><strong>Q: Can documents leak to invantia.com servers?</strong></p>
+      <p>A: No. The server is a static file host only (nginx serving HTML/CSS/JS). There is no server-side code capable of receiving or processing documents. Verify by monitoring network traffic during document upload—zero POST/PUT requests to any server.</p>
+      
+      <p><strong>Q: What about AI/LLM integration?</strong></p>
+      <p>A: Invantia Desktop does NOT send documents to AI services. Instead, it generates formatted "chat packages" that users manually copy-paste into their own AI accounts (ChatGPT, Claude, Gemini). The user controls what gets shared and when.</p>
+      
+      <p><strong>Q: Does it use external embedding APIs (OpenAI, Cohere, etc.)?</strong></p>
+      <p>A: No. Invantia uses classical co-occurrence-based vectorization implemented in pure JavaScript. No neural networks, no API calls, no model downloads. All semantic expansion happens locally using statistics computed from the user's own documents.</p>
+      
+      <p><strong>Q: What data leaves the browser?</strong></p>
+      <p>A: Only what the user explicitly copy-pastes. Invantia Desktop generates text outputs (super chunks) that users can review before manually pasting into external AI tools. The application itself transmits nothing.</p>
+      
+      <p><strong>Q: How do we verify this claim?</strong></p>
+      <p>A: 
+        <ol>
+          <li>Open Chrome DevTools ? Network tab</li>
+          <li>Load invantia.com (observe initial page load)</li>
+          <li>Upload a test document</li>
+          <li>Create a search query</li>
+          <li>Generate results</li>
+          <li><strong>Result:</strong> Zero network requests during steps 3-5</li>
+        </ol>
+      </p>
+      
+      <p><strong>Q: What about browser extensions or malware?</strong></p>
+      <p>A: Invantia Desktop operates within standard browser security sandboxes. Malicious extensions could theoretically access any web app's data, but this is a browser-level concern, not specific to Invantia. Use corporate-managed browsers with vetted extensions.</p>
+      
+      <p><strong>Q: Can we run this on-premises?</strong></p>
+      <p>A: Yes. Invantia Desktop is a static web application that can be served from internal corporate web servers. No backend infrastructure required—just host the HTML/CSS/JS files on any web server (nginx, Apache, IIS).</p>
+      
+      <p><strong>Q: What's the vendor's data retention policy?</strong></p>
+      <p>A: Not applicable. Invantia (the vendor) never receives user documents, queries, or results. There is no vendor data retention because there is no vendor data collection.</p>
+      
+      <p><strong>Q: How do we handle data classification (Confidential, Secret, etc.)?</strong></p>
+      <p>A: Since data never leaves the user's device, Invantia Desktop can process documents of any classification level, subject to your organization's policies on browser-based tools. Treat it like viewing a PDF in the browser—same risk profile.</p>
+      
+      <p><strong>Q: What about compliance (GDPR, HIPAA, SOC 2)?</strong></p>
+      <p>A: Client-side processing means no data crosses compliance boundaries. The vendor (Invantia) is not a data processor under GDPR/HIPAA because they never access customer data. For SOC 2, there are no systems to audit—processing is local.</p>
+    </div>
+
+    <div class="content-block">
+      <h3>Security Testing Recommendations</h3>
+      <p>For security teams performing due diligence, we recommend:</p>
+      
+      <ol>
+        <li><strong>Network Traffic Analysis:</strong> 
+          <ul>
+            <li>Use Wireshark or browser DevTools to monitor all network requests</li>
+            <li>Upload sample documents and verify zero POST/PUT/PATCH requests</li>
+            <li>Confirm no DNS queries to third-party AI services (openai.com, anthropic.com, etc.)</li>
+          </ul>
+        </li>
+        
+        <li><strong>IndexedDB Inspection:</strong>
+          <ul>
+            <li>Chrome DevTools ? Application ? Storage ? IndexedDB ? InvantiaDB</li>
+            <li>Verify documents are stored locally in "documents" object store</li>
+            <li>Confirm vectors are computed locally in "vectors" object store</li>
+          </ul>
+        </li>
+        
+        <li><strong>Source Code Review:</strong>
+          <ul>
+            <li>All JavaScript is unminified and readable in browser DevTools</li>
+            <li>Search codebase for "fetch(", "XMLHttpRequest", "axios", "$.ajax" ? should only find static asset loading</li>
+            <li>Verify no WebSocket connections or Server-Sent Events</li>
+          </ul>
+        </li>
+        
+        <li><strong>Offline Testing:</strong>
+          <ul>
+            <li>Load invantia.com with network enabled</li>
+            <li>Disconnect from network (airplane mode)</li>
+            <li>Upload document, create search, generate results</li>
+            <li><strong>Expected result:</strong> Full functionality with no network</li>
+          </ul>
+        </li>
+      </ol>
+    </div>
+
+    <div class="content-block">
+      <h3>Risk Assessment Summary</h3>
+      
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Risk Category</th>
+            <th>Traditional SaaS</th>
+            <th>Invantia Desktop</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Data Exfiltration</td>
+            <td>High - Documents sent to vendor servers</td>
+            <td><strong>None</strong> - No transmission occurs</td>
+          </tr>
+          <tr>
+            <td>Third-Party Breach</td>
+            <td>High - Vendor database compromise</td>
+            <td><strong>None</strong> - No vendor storage</td>
+          </tr>
+          <tr>
+            <td>Man-in-the-Middle</td>
+            <td>Medium - Sensitive data in transit</td>
+            <td><strong>Low</strong> - Only initial page load (HTTPS)</td>
+          </tr>
+          <tr>
+            <td>API Key Leakage</td>
+            <td>High - AI service credentials</td>
+            <td><strong>None</strong> - No APIs used</td>
+          </tr>
+          <tr>
+            <td>Vendor Lock-In</td>
+            <td>High - Proprietary data formats</td>
+            <td><strong>None</strong> - Standard browser storage</td>
+          </tr>
+          <tr>
+            <td>Compliance Violations</td>
+            <td>Medium - Shared responsibility model</td>
+            <td><strong>None</strong> - Data stays local</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="content-block">
+      <h3>Recommended Approval Language</h3>
+      <p>For security teams comfortable with the assessment, here's suggested approval language:</p>
+      
+      <blockquote style="border-left: 3px solid var(--accent); padding-left: 1rem; margin: 1rem 0; font-style: italic;">
+        "Invantia Desktop is approved for use with [classification level] documents. The application operates entirely client-side with no data transmission to vendor servers or third-party services. Users must manually control any data shared with external AI services by copy-pasting generated outputs. Standard browser security policies apply."
+      </blockquote>
+    </div>
+
+    <div class="content-block">
+      <h3>Alternative: Self-Hosted Deployment</h3>
+      <p>For organizations requiring maximum control:</p>
+      
+      <p><strong>Option: Host Internally</strong></p>
+      <ul>
+        <li>Download Invantia Desktop static files</li>
+        <li>Deploy to internal web server (e.g., https://invantia.internal.corp.com)</li>
+        <li>Configure enterprise SSO/SAML for access control</li>
+        <li>Air-gapped deployment possible (no internet required after initial setup)</li>
+      </ul>
+      
+      <p>Contact: enterprise@invantia.com for self-hosted deployment packages.</p>
+    </div>
+
+    <div class="content-block">
+      <h3>Still Have Questions?</h3>
+      <p>Security teams can contact us directly:</p>
+      <ul>
+        <li><strong>Email:</strong> security@invantia.com</li>
+        <li><strong>Response Time:</strong> 24 hours for security inquiries</li>
+        <li><strong>Video Demo:</strong> Available upon request to walk through architecture</li>
+        <li><strong>Pen Test Coordination:</strong> We welcome third-party security assessments</li>
+      </ul>
+    </div>
+  </section>
