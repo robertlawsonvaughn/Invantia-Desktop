@@ -1,0 +1,836 @@
+/* ===========================
+   Invantia � Core Theme
+   =========================== */
+
+:root {
+  --bg: #0b0b0d;
+  --bg-elev: #141418;
+  --text: #e7e7ee;
+  --muted: #a4a4b0;
+  --accent: #7c6cff;      /* logo violet */
+  --accent-2: #8f7cff;
+  --border: #2a2a33;
+  --danger: #ff5d5d;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 15px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, "Apple Color Emoji","Segoe UI Emoji";
+}
+
+/* ===========================
+   Topbar
+   =========================== */
+.topbar {
+  height: 56px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 12px;
+  border-bottom: 1px solid var(--border);
+  background: linear-gradient(180deg, #0d0d12, #0a0a0c 60%);
+  position: sticky; top: 0; z-index: 50;
+}
+
+.hamburger { 
+  background:none; border:0; padding:.5rem; border-radius:.5rem; 
+  cursor:pointer; color: var(--text); display: inline-flex;
+}
+.hamburger:hover { background: var(--bg-elev); }
+.hamburger:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.hamburger svg rect { fill: currentColor; }
+
+.brand { 
+  display:flex; align-items:center; gap:10px; text-decoration:none; 
+  color:inherit; font-weight: 600;
+}
+.logo { width:28px; height:28px; border-radius:6px; }
+.brand-name { font-weight: 700; letter-spacing: .2px; }
+
+/* Desktop navigation (hidden on mobile) */
+.topbar-nav { 
+  display: none;
+  align-items: center; 
+  gap: 12px;
+}
+.topbar-nav a {
+  color: var(--text); text-decoration: none; padding: 6px 12px;
+  border-radius: 8px; transition: background 0.2s;
+}
+.topbar-nav a:hover { background: var(--bg-elev); }
+
+.auth-indicator { 
+  font-size: 1rem; line-height: 1; cursor: default; margin-left: 4px;
+}
+
+/* ===========================
+   Flash Messages
+   =========================== */
+.flash { 
+  margin: 12px; padding: 10px 12px; border-radius: 8px; 
+  animation: slideDown 0.3s ease;
+}
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.flash-info { background:#1e3a5f; border:1px solid #2563eb; color:#93c5fd; }
+.flash-success { background:#0f3b25; border:1px solid #10b981; color:#6ee7b7; }
+.flash-error { background:#4c1d1d; border:1px solid #ef4444; color:#fca5a5; }
+
+/* ===========================
+   Sidebar (off-canvas by default; opens with .open)
+   =========================== */
+.sidebar {
+  position: fixed; left: 0; top: 56px; bottom: 0;
+  width: 260px; padding: 12px;
+  background: var(--bg); border-right: 1px solid var(--border);
+  overflow: auto;
+  transform: translateX(-100%);
+  transition: transform .25s ease;
+  z-index: 60;
+}
+.sidebar.open { transform: translateX(0); }
+
+.sidebar .nav { display: flex; flex-direction: column; gap: 6px; }
+.sidebar .nav a {
+  display:block; padding:10px 12px; border-radius:10px;
+  color: var(--text); text-decoration:none; border:1px solid transparent;
+  transition: all 0.2s;
+}
+.sidebar .nav a:hover { background: var(--bg-elev); border-color: var(--border); }
+
+.sidebar-footer { 
+  position: absolute; bottom: 12px; left: 12px; right: 12px;
+  color: var(--muted); font-size: 12px; padding: 8px;
+  border-top: 1px solid var(--border);
+}
+
+/* ===========================
+   Content Area
+   =========================== */
+.content { padding: 18px 22px; margin-left: 0; min-height: calc(100vh - 56px); }
+
+.panel { 
+  background: var(--bg-elev); border: 1px solid var(--border); 
+  border-radius: 16px; padding: 18px; margin-bottom: 16px;
+}
+.panel.narrow { max-width: 520px; margin: 2rem auto; }
+
+.h1 { font-size: 22px; margin: 4px 0 12px; font-weight: 700; }
+.h2 { font-size: 18px; margin: 0 0 10px; font-weight: 600; }
+.muted { color: var(--muted); }
+.sm { font-size: 12px; }
+
+.grid-2 { 
+  display: grid; grid-template-columns: 1fr; gap: 16px; margin-top: 12px;
+}
+.card { 
+  background: #121218; border: 1px solid var(--border); 
+  border-radius: 14px; padding: 14px;
+}
+
+/* ===========================
+   Forms & Buttons
+   =========================== */
+.form { display: grid; gap: 10px; }
+.form label { display: grid; gap: 6px; font-size: 14px; font-weight: 500; }
+.form input[type="text"],
+.form input[type="email"],
+.form input[type="password"],
+.form input[type="file"] {
+  padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border);
+  background: #0f0f14; color: var(--text); font-size: 14px;
+  transition: border-color 0.2s;
+}
+.form input:focus-visible { 
+  outline: 2px solid var(--accent); outline-offset: 2px; border-color: var(--accent);
+}
+
+.btn, button[type="submit"] {
+  background: var(--accent); color: #fff; font-weight: 600;
+  border: 0; border-radius: 10px; padding: 10px 16px; cursor: pointer;
+  font-size: 14px; transition: filter 0.2s;
+}
+.btn:hover, button[type="submit"]:hover { filter: brightness(1.1); }
+.btn:active { transform: scale(0.98); }
+
+.btn.ghost {
+  background: transparent; color: var(--text); border: 1px solid var(--border);
+}
+.btn.ghost:hover { border-color: var(--accent); background: var(--bg-elev); }
+
+/* ===========================
+   Chat Shell
+   =========================== */
+.chat-shell { display: grid; gap: 10px; }
+.chat-window {
+  height: 280px; overflow: auto; background: #0f0f14; border: 1px solid var(--border);
+  border-radius: 12px; padding: 10px;
+}
+.msg { 
+  padding: 8px 12px; border-radius: 10px; margin: 6px 0; 
+  display: inline-block; max-width: 80%;
+}
+.msg.bot  { background: #151523; border: 1px solid var(--border); }
+.msg.user { 
+  background: var(--accent); color: #fff; font-weight: 500; 
+  margin-left: auto; display: block; text-align: right;
+}
+
+.chat-input { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
+.chat-input input {
+  padding: 10px 12px; border-radius: 10px; border: 1px solid var(--border); 
+  background: #0f0f14; color: var(--text);
+}
+
+/* ===========================
+   Tables
+   =========================== */
+.table { 
+  width: 100%; border-collapse: collapse; 
+  background: var(--bg-elev); border-radius: 12px; overflow: hidden;
+}
+.table thead { background: #0f0f14; }
+.table th { 
+  text-align: left; padding: 12px; font-weight: 600; 
+  border-bottom: 1px solid var(--border);
+}
+.table td { padding: 10px 12px; border-bottom: 1px solid var(--border); }
+.table tbody tr:last-child td { border-bottom: none; }
+.table tbody tr:hover { background: #16161c; }
+
+.table a { color: var(--accent); text-decoration: none; }
+.table a:hover { text-decoration: underline; }
+
+/* ===========================
+   Responsive
+   =========================== */
+
+/* Desktop: =1024px */
+@media (min-width: 1024px) {
+  .sidebar { transform: none; }
+  .content { margin-left: 260px; }
+  .hamburger { display: none; }
+  .topbar-nav { display: flex; }
+  .grid-2 { grid-template-columns: 1fr 1fr; }
+}
+
+/* Tablet: 720px - 1023px */
+@media (min-width: 720px) and (max-width: 1023px) {
+  .topbar-nav { display: flex; }
+  .hamburger { display: none; }
+  .grid-2 { grid-template-columns: 1fr; }
+}
+
+/* Mobile: =719px */
+@media (max-width: 719px) {
+  .content { padding: 14px; }
+  .panel { padding: 14px; }
+  .h1 { font-size: 20px; }
+  .grid-2 { grid-template-columns: 1fr; }
+  .table { font-size: 13px; }
+  .table th, .table td { padding: 8px; }
+}
+
+/* ============================================
+   BUTTON VARIANTS & SIZES
+   ============================================ */
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn-secondary {
+  background: rgba(124, 108, 255, 0.12);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+  border-color: var(--accent);
+  background: rgba(124, 108, 255, 0.2);
+}
+
+.btn-sm {
+  padding: 6px 10px;
+  font-size: 12px;
+  border-radius: 8px;
+}
+
+.btn-lg {
+  padding: 12px 20px;
+  font-size: 15px;
+  border-radius: 999px;
+}
+
+/* Keep .btn as the base so existing usage still works */
+.btn-primary,
+.btn-secondary,
+.btn-sm,
+.btn-lg {
+  font-weight: 600;
+}
+
+/* ============================================
+   GENERIC FORM CONTROLS (select, textarea)
+   ============================================ */
+
+.form-control,
+select.form-control,
+textarea.form-control {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #0f0f14;
+  color: var(--text);
+  font-size: 14px;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(124, 108, 255, 0.3);
+  background: #101018;
+}
+
+/* For multi-line question inputs on Desktop */
+textarea.question-input {
+  min-height: 96px;
+  resize: vertical;
+  background: #1a1a24 !important;
+  color: #ffffff !important;
+  border: 2px solid var(--accent) !important;
+  box-shadow: 0 0 20px rgba(124, 108, 255, 0.2);
+  font-size: 15px !important;
+  font-weight: 400;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+textarea.question-input:focus {
+  outline: none;
+  border-color: var(--accent-2) !important;
+  box-shadow: 0 0 30px rgba(124, 108, 255, 0.4);
+  background: #1e1e2a !important;
+}
+
+textarea.question-input::placeholder {
+  color: #7a7a88;
+  font-style: italic;
+}
+
+
+/* ============================================
+   RADIO & CHECKBOX GROUPS (pill-style)
+   ============================================ */
+
+.radio-group,
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.radio-label,
+.checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  font-size: 13px;
+  background: #101018;
+  transition: background 0.15s, border-color 0.15s, color 0.15s, box-shadow 0.15s;
+}
+
+/* Hide raw inputs but keep them in the DOM for JS */
+.radio-label input[type="radio"],
+.checkbox-label input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Selected state */
+.radio-label input[type="radio"]:checked + span,
+.checkbox-label input[type="checkbox"]:checked + span {
+  color: #fff;
+}
+
+.radio-label input[type="radio"]:checked ~ .pill,
+.checkbox-label input[type="checkbox"]:checked ~ .pill {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px rgba(124, 108, 255, 0.8);
+}
+
+/* Use an inner span for styling (see HTML notes) */
+.radio-label .pill,
+.checkbox-label .pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+/* Small dot icon for radios */
+.radio-label .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  border: 2px solid var(--muted);
+  box-sizing: border-box;
+}
+
+.radio-label input[type="radio"]:checked ~ .pill .dot {
+  border-color: #fff;
+  background: #fff;
+}
+
+/* Checkbox square icon */
+.checkbox-label .box {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  border: 2px solid var(--muted);
+  box-sizing: border-box;
+}
+
+.checkbox-label input[type="checkbox"]:checked ~ .pill .box {
+  border-color: #fff;
+  background: #fff;
+}
+
+/* ============================================
+   DESKTOP QUERY LAYOUT TOUCHES
+   ============================================ */
+
+.query-section {
+  margin-top: 1rem;
+}
+
+.query-section h2 {
+  margin-bottom: 0.75rem;
+}
+
+.query-prerequisite {
+  padding: 1.1rem 1.2rem;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: #101017;
+  margin-bottom: 1rem;
+}
+
+.query-prerequisite h3 {
+  margin: 0 0 0.35rem 0;
+  font-size: 0.98rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.selection-controls {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.selection-container {
+  padding: 0.6rem 0.5rem;
+  border-radius: 10px;
+  background: #0f0f14;
+  border: 1px solid var(--border);
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* Results area */
+.results-section h2,
+.package-section h2 {
+  margin-bottom: 0.75rem;
+}
+
+/* ===========================
+   Invantia Desktop – Layout & Hero
+   =========================== */
+
+.desktop-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 1.5rem;
+}
+
+.desktop-container > section {
+  grid-column: 1;
+}
+
+/* Right-hand stats/sidebar column */
+.sidebar-stats {
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Hero section at top */
+.hero-section {
+  margin-bottom: 1.5rem;
+}
+
+.hero-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0 0 0.35rem 0;
+}
+
+.hero-subtitle {
+  font-size: 0.95rem;
+  margin: 0 0 0.35rem 0;
+  color: var(--muted);
+}
+
+.hero-description {
+  font-size: 0.9rem;
+  margin: 0;
+  color: var(--muted);
+}
+
+/* Upload panel just under hero */
+.upload-section {
+  margin-top: 1rem;
+}
+
+/* ===========================
+   Sidebar: Library & Help
+   =========================== */
+
+.stats-card {
+  background: #121218;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  padding: 1rem 1.1rem;
+}
+
+.stats-card h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.95rem;
+}
+
+.stats-card .stat-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.stats-card .stat-item:last-child {
+  border-bottom: none;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.stat-value {
+  font-weight: 600;
+  color: var(--accent);
+}
+
+.quick-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.help-links {
+  list-style: none;
+  padding: 0;
+  margin: 0.25rem 0 0;
+}
+
+.help-links li {
+  margin-bottom: 0.25rem;
+}
+
+.help-links a {
+  font-size: 0.85rem;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.help-links a:hover {
+  color: var(--accent);
+}
+
+/* ===========================
+   Desktop – Query Builder
+   =========================== */
+
+.query-section {
+  margin-top: 1.25rem;
+}
+
+.query-section h2 {
+  margin: 0 0 0.75rem 0;
+}
+
+.query-prerequisite {
+  padding: 1.1rem 1.2rem;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: #101017;
+  margin-bottom: 1rem;
+}
+
+.query-prerequisite h3 {
+  margin: 0 0 0.35rem 0;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+}
+
+.selection-controls {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.selection-container {
+  padding: 0.6rem 0.5rem;
+  border-radius: 10px;
+  background: #0f0f14;
+  border: 1px solid var(--border);
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* Results + generated package panels */
+.results-section h2,
+.package-section h2 {
+  margin: 1.5rem 0 0.75rem 0;
+}
+
+/* ===========================
+   Modern Inputs for Desktop
+   =========================== */
+
+/* Generic "enhanced" controls for Desktop; safe to use elsewhere too */
+.form-control,
+select.form-control,
+textarea.form-control {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #0f0f14;
+  color: var(--text);
+  font-size: 14px;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px rgba(124, 108, 255, 0.3);
+  background: #101018;
+}
+
+textarea.question-input {
+  min-height: 96px;
+  resize: vertical;
+}
+
+/* Buttons: variants & sizes layered on top of existing .btn */
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn-secondary {
+  background: rgba(124, 108, 255, 0.12);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+  border-color: var(--accent);
+  background: rgba(124, 108, 255, 0.2);
+}
+
+.btn-sm {
+  padding: 6px 10px;
+  font-size: 12px;
+  border-radius: 8px;
+}
+
+.btn-lg {
+  padding: 12px 20px;
+  font-size: 15px;
+  border-radius: 999px;
+}
+
+.btn-primary,
+.btn-secondary,
+.btn-sm,
+.btn-lg {
+  font-weight: 600;
+}
+
+/* ===========================
+   Radio / Checkbox “pill” groups
+   =========================== */
+
+.radio-group,
+.checkbox-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.radio-label,
+.checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  font-size: 13px;
+  background: #101018;
+  transition: background 0.15s, border-color 0.15s, color 0.15s, box-shadow 0.15s;
+}
+
+/* Hide raw inputs but keep them alive for JS */
+.radio-label input[type="radio"],
+.checkbox-label input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Inner pill span (optional but recommended) */
+.radio-label .pill,
+.checkbox-label .pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+/* Dot / box icons (only matter if you add these spans in HTML) */
+.radio-label .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  border: 2px solid var(--muted);
+  box-sizing: border-box;
+}
+
+.checkbox-label .box {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  border: 2px solid var(--muted);
+  box-sizing: border-box;
+}
+
+/* Selected state */
+.radio-label input[type="radio"]:checked + .pill,
+.checkbox-label input[type="checkbox"]:checked + .pill {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px rgba(124, 108, 255, 0.8);
+  color: #fff;
+}
+
+.radio-label input[type="radio"]:checked + .pill .dot {
+  border-color: #fff;
+  background: #fff;
+}
+
+.checkbox-label input[type="checkbox"]:checked + .pill .box {
+  border-color: #fff;
+  background: #fff;
+}
+
+/* ===========================
+   Desktop – Responsive tweaks
+   =========================== */
+
+@media (max-width: 1024px) {
+  .desktop-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .sidebar-stats {
+    grid-column: 1;
+    grid-row: auto;
+  }
+}
+
+
+/* 
+ * UPDATED SECTION: Super Chunk Accordion
+ */
+
+.superchunk-header {
+  padding: 0.9rem 1.1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  background: #181820;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+.superchunk-title {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.superchunk-meta {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-top: 0.25rem;
+}
+
+.superchunk-toggle {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: var(--accent);
+  transition: transform 0.15s ease;
+  flex-shrink: 0;
+  margin-left: 0.5rem;
+}
+
+.superchunk-toggle.open {
+  transform: rotate(45deg); /* + -> × */
+}
+
+.superchunk-body {
+  padding: 1rem 1.2rem;
+  display: none;
+  line-height: 1.5rem;
+  white-space: pre-wrap;
+  font-family: "JetBrains Mono", "Consolas", monospace;
+  background: #0f0f14;
+}
+
+.superchunk-body.expanded {
+  display: block;
+}
+

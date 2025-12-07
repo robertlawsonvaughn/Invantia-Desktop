@@ -1,0 +1,667 @@
+
+
+
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invantia Desktop - Free Document Intelligence</title>
+  <link rel="stylesheet" href="invantia.css?v=1765071166">
+</head>
+<body>
+    
+  <!-- ============================================
+       TOPBAR (Desktop & Mobile)
+       ============================================ -->
+  <header class="topbar">
+    <!-- Hamburger Menu (Mobile Only) -->
+    <button id="menuToggle" class="hamburger" aria-label="Toggle menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="3" y="6" width="18" height="2" rx="1"></rect>
+        <rect x="3" y="11" width="18" height="2" rx="1"></rect>
+        <rect x="3" y="16" width="18" height="2" rx="1"></rect>
+      </svg>
+    </button>
+    
+    <!-- Brand/Logo -->
+    <a href="/" class="brand">
+      <img src="invantia_logo.png" alt="Invantia" class="logo">
+      <span class="brand-name">Invantia</span>
+    </a>
+    
+    <!-- Desktop Navigation -->
+      <nav class="topbar-nav">
+        <a href="/">Desktop</a>
+        <a href="/enterprise">Enterprise</a>
+        <a href="/about">About</a>
+        <a href="/documentation">Docs</a>
+        
+          <a href="/my-documents">My Documents</a>
+          <a href="/my-docs">My Docs (Enterprise)</a>
+          <a href="/logout">Logout</a>
+          <span class="auth-indicator" title="Logged in">??</span>
+        
+      </nav>
+  </header>
+  
+  <!-- ============================================
+       FLASH MESSAGES
+       ============================================ -->
+  
+  <!-- ============================================
+       SIDEBAR (Mobile - Off Canvas)
+       ============================================ -->
+  <aside id="sidebar" class="sidebar">
+    <nav class="nav">
+      <a href="/">Desktop</a>
+      <a href="/enterprise">Enterprise</a>
+      <a href="/about">About</a>
+      <a href="/documentation">Documentation</a>
+      <a href="/infosec">Security & Privacy</a>
+      
+        <a href="/my-documents">My Documents</a>
+        <a href="/my-docs">My Docs (Enterprise)</a>
+        <a href="/logout">Logout</a>
+      
+    </nav>
+    
+    <div class="sidebar-footer">
+      
+        robert.vaughn.nm@gmail.com
+      
+    </div>
+  </aside>
+  <!-- ============================================
+       MAIN CONTENT
+       ============================================ -->
+  <main id="content" class="content">
+    
+<div class="desktop-container">
+  
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <h1 class="hero-title">Invantia Desktop</h1>
+    <p class="hero-subtitle">Chat-Enabled Deep AI Analysis for Large Document Sets</p>
+    <p class="hero-description">
+      Process documents locally in your browser. Your data never leaves your device.
+    </p>
+  </section>
+
+  <!-- File Upload Section -->
+  <section class="panel upload-section">
+    <div class="section-header collapsible" onclick="toggleSection('uploadContent')">
+      <h2>?? Upload Documents</h2>
+      <span class="toggle-icon" id="uploadToggle">+</span>
+    </div>
+    
+    <div id="uploadContent" class="section-content" style="display: none;">
+      <p class="muted">
+        Upload PDF, DOCX, or TXT files. Files are processed entirely in your browser using IndexedDB.
+      </p>
+      
+      <!-- File Picker -->
+      <div class="upload-controls">
+        <input 
+          type="file" 
+          id="fileInput" 
+          accept=".pdf,.docx,.txt"
+          multiple
+          style="display: none;"
+          onchange="handleFileSelection(event)"
+        >
+        <button class="btn btn-primary" onclick="document.getElementById('fileInput').click()">
+          Choose Files
+        </button>
+        <span id="fileCount" class="muted sm"></span>
+      </div>
+      
+      <!-- Drag & Drop Zone -->
+      <div id="dropZone" class="drop-zone">
+        <p>Or drag and drop files here</p>
+        <p class="sm muted">Supports: PDF, DOCX, TXT</p>
+      </div>
+      
+      <!-- Processing Status -->
+      <div id="uploadStatus" class="upload-status" style="display: none;">
+        <div class="progress-bar">
+          <div id="uploadProgress" class="progress-fill"></div>
+        </div>
+        <p id="uploadStatusText">Processing...</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel query-section">
+  <h2>?? Build Your Query</h2>
+  
+  <!-- Document/Collection Selection -->
+  <div class="query-prerequisite" id="documentSelectionSection">
+    <h3>Step 1: Select Documents or Collection</h3>
+    <div class="selection-controls">
+      <div class="radio-group">
+        <label class="radio-label">
+          <input type="radio" name="sourceType" value="documents" checked onchange="QueryBuilder.handleSourceTypeChange()">
+          <span class="pill">
+            <span class="dot"></span>
+            <span>Individual Documents</span>
+          </span>
+        </label>
+        <label class="radio-label">
+          <input type="radio" name="sourceType" value="collection" onchange="QueryBuilder.handleSourceTypeChange()">
+          <span class="pill">
+            <span class="dot"></span>
+            <span>Collection</span>
+          </span>
+        </label>
+      </div>
+
+      
+      <div id="documentSelectionContainer" class="selection-container">
+        <div class="checkbox-group" id="documentCheckboxes">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+      
+      <div id="collectionSelectionContainer" class="selection-container" style="display: none;">
+        <select id="collectionSelect" class="form-control" onchange="QueryBuilder.handleCollectionSelection()">
+          <option value="">-- Select a Collection --</option>
+          <!-- Populated dynamically -->
+        </select>
+      </div>
+    </div>
+  </div>
+  
+  <!-- LLM Target Selection -->
+  <!-- Account Tier Selection - OPTION C -->
+  <div class="query-prerequisite" id="accountTierSection" style="display: none;">
+    <h3>Step 2: Select Your AI Chat Window Size</h3>
+    <p class="muted">
+      Choose based on your AI provider account type.
+      <em>Note: Invantia Desktop is always free - this optimizes for your AI provider's limits.</em>
+    </p>
+    <select id="accountTierSelect" class="form-control" onchange="QueryBuilder.handleTierChange()">
+      <option value="">-- Select Chat Window Size --</option>
+      <option value="standard">Standard (30k character paste limit) - Works with all free AI accounts</option>
+      <option value="large">Large (100k character paste limit) - For paid AI subscriptions</option>
+    </select>
+    <p class="sm muted" style="margin-top: 0.5rem;">
+      <strong>Not sure?</strong> Choose Standard - it works everywhere.
+    </p>
+  </div>
+  
+  <!-- Query Builder Interface - PHASE 2B SIMPLIFIED UI -->
+  <div id="queryBuilderContainer" style="display: none;">
+    <h3>Step 3: Ask Your Questions</h3>
+    <p class="muted">Enter natural language questions - semantic search will find related content</p>
+    
+    <div id="queryTopics">
+      <!-- Query topics will be added here -->
+    </div>
+    
+    <button class="btn btn-secondary" onclick="QueryBuilder.addQueryTopic()" id="addTopicBtn">
+      + Add Another Topic
+    </button>
+  </div>
+  
+  <!-- Search Button -->
+  <div id="searchButtonSection" style="display: none;">
+    <button class="btn btn-primary btn-lg" onclick="QueryBuilder.executeSearch()" style="margin-top: 1rem;">
+      ?? Search
+    </button>
+  </div>
+</section>
+
+<!-- Search Results Section -->
+<section class="panel results-section" id="searchResultsSection" style="display: none;">
+  <h2>?? Chat Packages</h2>
+  <div id="searchResultsContainer">
+    <!-- Results will be displayed here -->
+  </div>
+</section>
+
+  <!-- Chat Package Section -->
+  <section class="panel package-section" id="packageSection" style="display: none;">
+    <div class="section-header">
+      <h2>?? Chat Package</h2>
+    </div>
+    
+    <div id="chatPackageDisplay" class="section-content">
+      <!-- Chat package will be displayed here -->
+    </div>
+  </section>
+
+  <!-- Stats & Quick Actions -->
+  <aside class="sidebar-stats">
+    <div class="card stats-card">
+      <h3>?? Your Library</h3>
+      <div id="statsDisplay">
+        <div class="stat-item">
+          <span class="stat-label">Documents:</span>
+          <span id="statDocuments" class="stat-value">0</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Collections:</span>
+          <span id="statCollections" class="stat-value">0</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Chunks:</span>
+          <span id="statChunks" class="stat-value">0</span>
+        </div>
+      </div>
+      
+      <div class="quick-actions">
+        <a href="/my-documents" class="btn btn-sm btn-secondary">
+          Manage Documents
+        </a>
+        <button class="btn btn-sm btn-secondary" onclick="InvantiaBackup.downloadBackup()">
+          Backup Data
+        </button>
+      </div>
+    </div>
+    
+    <div class="card help-card">
+      <h3>? Need Help?</h3>
+      <ul class="help-links">
+        <li><a href="/about">About Invantia</a></li>
+        <li><a href="#" onclick="showQuickStart(); return false;">Quick Start Guide</a></li>
+        <li><a href="https://github.com/invantia/desktop" target="_blank">Documentation</a></li>
+      </ul>
+    </div>
+  </aside>
+
+</div>
+
+<!-- Load External Libraries -->
+<script src="pdf.min.js"></script>
+<script>
+  // Configure pdf.js worker
+  if (typeof pdfjsLib !== 'undefined') {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'pdf.worker.min.js';
+  }
+</script>
+<script src="mammoth.browser.min.js"></script>
+
+<!-- Load Desktop Modules -->
+<script src="indexeddb.js"></script>
+<script src="document-processor.js"></script>
+<script src="chunker.js"></script>
+<script src="config.js"></script>   
+<script src="vectorizer.js"></script>  <!-- PHASE 2: NEW MODULE -->
+<script src="search.js"></script>
+<script src="query-builder.js"></script>
+<script src="package-formatter.js"></script>
+<script src="backup-indexeddb.js"></script>
+
+<script>
+// ============================================================================
+// SINGLE PAGE INITIALIZATION - DO NOT DUPLICATE
+// ============================================================================
+
+document.addEventListener('DOMContentLoaded', async function() {
+  console.log('Desktop Home initializing...');
+  
+  // Wait for all modules to be fully loaded and IndexedDB to auto-initialize
+  await new Promise(resolve => setTimeout(resolve, 100));
+  
+  // Verify IndexedDB is ready
+  if (!window.InvantiaDB) {
+    console.error('IndexedDB module not loaded');
+    alert('Error: Database module failed to load. Please refresh the page.');
+    return;
+  }
+  
+  console.log('IndexedDB ready');
+  
+  // Verify Vectorizer is loaded (Phase 2)
+  if (window.InvantiaVectorizer) {
+    console.log('? Vectorizer module loaded - semantic search enabled');
+  } else {
+    console.warn('? Vectorizer module not loaded - using exact matching');
+  }
+  
+  // Initialize Query Builder
+  try {
+    await window.QueryBuilder.initialize();
+    console.log('Query Builder ready');
+  } catch (error) {
+    console.error('Failed to initialize Query Builder:', error);
+  }
+  
+  // Update stats
+  await updateStats();
+  
+  // Setup drag and drop
+  setupDragAndDrop();
+  
+  // Check if user has documents (auto-expand upload if empty)
+  await checkFirstRun();
+  
+  console.log('Desktop Home ready!');
+});
+
+// ============================================================================
+// COLLAPSIBLE SECTIONS
+// ============================================================================
+
+function toggleSection(sectionId) {
+  const section = document.getElementById(sectionId);
+  if (!section) {
+    console.error('Section not found:', sectionId);
+    return;
+  }
+  
+  const header = section.previousElementSibling;
+  const toggleIcon = header ? header.querySelector('.toggle-icon') : null;
+  
+  if (section.style.display === 'none') {
+    section.style.display = 'block';
+    if (toggleIcon) toggleIcon.textContent = '-';
+  } else {
+    section.style.display = 'none';
+    if (toggleIcon) toggleIcon.textContent = '+';
+  }
+}
+
+// ============================================================================
+// STATS DISPLAY
+// ============================================================================
+
+async function updateStats() {
+  try {
+    console.log('Updating stats...');
+    const stats = await window.InvantiaDB.getStats();
+    console.log('Stats retrieved:', stats);
+    
+    document.getElementById('statDocuments').textContent = stats.documentCount;
+    document.getElementById('statCollections').textContent = stats.collectionCount;
+    document.getElementById('statChunks').textContent = stats.chunkCount;
+    
+    console.log('Stats updated successfully');
+  } catch (error) {
+    console.error('Error updating stats:', error);
+  }
+}
+
+// ============================================================================
+// FIRST RUN CHECK
+// ============================================================================
+
+async function checkFirstRun() {
+  try {
+    const stats = await window.InvantiaDB.getStats();
+    
+    // If no documents, expand upload section and show message
+    if (stats.documentCount === 0) {
+      toggleSection('uploadContent');
+      showWelcomeMessage();
+    }
+  } catch (error) {
+    console.error('Error checking first run:', error);
+  }
+}
+
+function showWelcomeMessage() {
+  const uploadSection = document.querySelector('.upload-section .section-content');
+  
+  const welcomeMsg = document.createElement('div');
+  welcomeMsg.className = 'welcome-message';
+  welcomeMsg.innerHTML = `
+    <p><strong>Welcome to Invantia Desktop!</strong></p>
+    <p>Start by uploading your first document. Everything is processed locally in your browser.</p>
+  `;
+  
+  uploadSection.insertBefore(welcomeMsg, uploadSection.firstChild);
+}
+
+// ============================================================================
+// FILE UPLOAD HANDLING
+// ============================================================================
+
+let selectedFiles = [];
+
+function handleFileSelection(event) {
+  selectedFiles = Array.from(event.target.files);
+  updateFileCount();
+  
+  if (selectedFiles.length > 0) {
+    processFiles(selectedFiles);
+  }
+}
+
+function updateFileCount() {
+  const fileCount = document.getElementById('fileCount');
+  if (selectedFiles.length > 0) {
+    fileCount.textContent = `${selectedFiles.length} file(s) selected`;
+  } else {
+    fileCount.textContent = '';
+  }
+}
+
+// ============================================================================
+// DRAG AND DROP
+// ============================================================================
+
+function setupDragAndDrop() {
+  const dropZone = document.getElementById('dropZone');
+  
+  ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+    dropZone.addEventListener(eventName, preventDefaults, false);
+  });
+  
+  ['dragenter', 'dragover'].forEach(eventName => {
+    dropZone.addEventListener(eventName, () => {
+      dropZone.classList.add('drag-over');
+    }, false);
+  });
+  
+  ['dragleave', 'drop'].forEach(eventName => {
+    dropZone.addEventListener(eventName, () => {
+      dropZone.classList.remove('drag-over');
+    }, false);
+  });
+  
+  dropZone.addEventListener('drop', handleDrop, false);
+}
+
+function preventDefaults(e) {
+  e.preventDefault();
+  e.stopPropagation();
+}
+
+function handleDrop(e) {
+  const files = Array.from(e.dataTransfer.files);
+  
+  // Filter for supported file types
+  const supportedFiles = files.filter(file => {
+    return file.name.endsWith('.pdf') || 
+           file.name.endsWith('.docx') || 
+           file.name.endsWith('.txt');
+  });
+  
+  if (supportedFiles.length === 0) {
+    alert('No supported files found. Please upload PDF, DOCX, or TXT files.');
+    return;
+  }
+  
+  if (supportedFiles.length < files.length) {
+    alert(`${files.length - supportedFiles.length} unsupported file(s) skipped.`);
+  }
+  
+  selectedFiles = supportedFiles;
+  updateFileCount();
+  processFiles(selectedFiles);
+}
+
+// ============================================================================
+// FILE PROCESSING (Updated for Phase 2)
+// ============================================================================
+
+async function processFiles(files) {
+  const statusDiv = document.getElementById('uploadStatus');
+  const statusText = document.getElementById('uploadStatusText');
+  const progressBar = document.getElementById('uploadProgress');
+  
+  statusDiv.style.display = 'block';
+  
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    
+    try {
+      // Update status
+      statusText.textContent = `Processing ${file.name} (${i + 1}/${files.length})...`;
+      progressBar.style.width = `${((i) / files.length) * 100}%`;
+      
+      // Use new integrated processing function (Phase 2)
+      await window.InvantiaDocProcessor.processAndSaveDocument(
+        file,
+        (percent) => {
+          progressBar.style.width = `${((i) / files.length) * 100 + (percent / files.length)}%`;
+        },
+        (status) => {
+          statusText.textContent = `${file.name}: ${status}`;
+        }
+      );
+      
+      console.log(`? Processed: ${file.name}`);
+      
+    } catch (error) {
+      console.error(`Error processing ${file.name}:`, error);
+      alert(`Error processing ${file.name}: ${error.message}`);
+    }
+  }
+  
+  // Complete
+  progressBar.style.width = '100%';
+  statusText.textContent = `? Successfully processed ${files.length} file(s)`;
+  
+  // Reload Query Builder to show new documents
+  try {
+    await window.QueryBuilder.initialize();
+  } catch (error) {
+    console.error('Error reinitializing Query Builder:', error);
+  }
+  
+  // Update stats
+  await updateStats();
+  
+  // Reset after delay
+  setTimeout(() => {
+    statusDiv.style.display = 'none';
+    selectedFiles = [];
+    updateFileCount();
+    document.getElementById('fileInput').value = '';
+  }, 3000);
+}
+
+// ============================================================================
+// QUICK START MODAL
+// ============================================================================
+
+function showQuickStart() {
+  alert(
+    'Invantia Desktop Quick Start:\n\n' +
+    '1. Upload documents (PDF, DOCX, TXT)\n' +
+    '2. Build queries using search blocks\n' +
+    '3. Generate chat packages\n' +
+    '4. Paste into ChatGPT, Claude, or Gemini\n\n' +
+    'Your data stays local - nothing is sent to servers!'
+  );
+}
+
+// ============================================================================
+// SUPER CHUNK TOGGLER
+// ============================================================================
+
+function toggleSuperChunk(headerEl) {
+  const body = headerEl.nextElementSibling;
+  if (!body) return;
+
+  const toggleIcon = headerEl.querySelector(".superchunk-toggle");
+
+  const isExpanded = body.classList.toggle("expanded");
+
+  if (isExpanded) {
+    if (toggleIcon) {
+      toggleIcon.textContent = "–";
+      toggleIcon.classList.add("open");
+    }
+  } else {
+    if (toggleIcon) {
+      toggleIcon.textContent = "+";
+      toggleIcon.classList.remove("open");
+    }
+  }
+}
+
+
+</script>
+
+
+<script>
+// Check what's in IndexedDB DEBUG
+const chunks = await window.InvantiaDB.getAllChunks();
+console.log('Total chunks:', chunks.length);
+console.log('Sample chunk:', chunks[0]);
+
+// Check vectors
+const docIds = await window.InvantiaDB.getAllDocuments();
+console.log('Documents:', docIds);
+// After doing a search, check the last query structure
+console.log('Last search inclusionConcepts:', window.lastSearchQuery);
+
+// Check the exact structure being sent to search
+console.log('Inclusion concepts structure:', 
+  JSON.stringify(window.lastQuery?.blocks?.[0]?.inclusionConcepts, null, 2)
+);
+
+// Check the exact structure being passed to search engine
+const lastQuery = window._currentSearchResults?.query;
+if (lastQuery && lastQuery.blocks && lastQuery.blocks[0]) {
+  const concepts = lastQuery.blocks[0].inclusionConcepts;
+  console.log('Number of concepts:', concepts.length);
+  console.log('First concept structure:', concepts[0]);
+  console.log('First concept has .terms?', !!concepts[0].terms);
+  console.log('First concept .terms value:', concepts[0].terms);
+}
+
+for (const doc of docIds) {
+  const vectors = await window.InvantiaDB.getVectors(doc.id);
+  console.log(`Document ${doc.id} vectors:`, vectors ? 'EXISTS' : 'MISSING');
+  if (vectors) {
+    console.log(`  - Matrix size: ${vectors.matrix.size} terms`);
+  }
+}
+
+</script>
+
+
+
+
+  </main>
+  <!-- ============================================
+       JAVASCRIPT
+       ============================================ -->
+  <script>
+  // Hamburger menu toggle
+  document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('menuToggle');
+    const sidebar = document.getElementById('sidebar');
+    
+    btn?.addEventListener('click', () => {
+      sidebar?.classList.toggle('open');
+    });
+    
+    // Close sidebar when clicking outside on mobile
+    document.addEventListener('click', (e) => {
+      if (sidebar?.classList.contains('open') && 
+          !sidebar.contains(e.target) && 
+          !btn.contains(e.target)) {
+        sidebar.classList.remove('open');
+      }
+    });
+  });
+  </script>
+</body>
+</html>
